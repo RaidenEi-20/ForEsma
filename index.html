@@ -1,4 +1,3 @@
-cat << 'EOF' > index.html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -37,17 +36,13 @@ cat << 'EOF' > index.html
         .esma-yok h1 { background: none; -webkit-text-fill-color: var(--text-main); }
         .subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 40px; line-height: 1.5; }
         .counter-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 15px; font-weight: 700; transition: color var(--transition-speed); }
-        
-        /* Yeni Kalp Atış Hızı Tasarımı */
-        .bpm-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 40px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.04); padding: 20px; border-radius: 20px; max-width: 320px; margin-left: auto; margin-right: auto; }
-        .bpm-value { font-size: 2.8rem; font-weight: 800; color: var(--text-main); font-family: monospace; }
-        .bpm-details { text-align: left; }
-        .bpm-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        .bpm-status { font-size: 0.85rem; color: var(--accent-soft); font-weight: 600; margin-top: 2px; }
-
+        .counter-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; }
+        .counter-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 16px; min-width: 80px; transition: all var(--transition-speed); }
+        .counter-value { font-size: 1.8rem; font-weight: 700; color: var(--text-main); font-family: monospace; }
+        .counter-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; }
         .message-box { background: rgba(255, 42, 116, 0.02); border-left: 3px solid var(--accent-glow); padding: 25px; border-radius: 0 16px 16px 0; text-align: left; line-height: 1.7; font-size: 1.05rem; color: var(--text-main); transition: all var(--transition-speed); opacity: 1; transform: translateY(0); }
         .esma-yok .message-box { border-left-color: #444; opacity: 0.4; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 42, 116, 0.15); } 100% { transform: scale(1); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); box-shadow: 0 0 20px rgba(255, 42, 116, 0.2); } 100% { transform: scale(1); } }
         .pulse-active { animation: pulse 3s infinite ease-in-out; }
         footer { margin-top: 30px; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; }
     </style>
@@ -59,57 +54,64 @@ cat << 'EOF' > index.html
             <span class="toggle-text" id="toggleText">Mod: Esma Var 🌸</span>
         </div>
         <h1 id="mainTitle">İyi Ki Doğdun Esma!</h1>
-        <p class="subtitle" id="mainSubtitle">Günüme neşe katan, enerjisiyle her anı güzelleştiren birine küçük bir sürpriz...</p>
-        <div class="counter-title" id="counterTitle">Anlık Sistem Durumu</div>
-        
-        <div class="bpm-container">
-            <div class="bpm-value" id="bpmValue">82</div>
-            <div class="bpm-details">
-                <div class="bpm-label">Kalp Atış Hızı (BPM)</div>
-                <div class="bpm-status" id="bpmStatus">Ritim: Heyecanlı 💓</div>
-            </div>
+        <p class="subtitle" id="mainSubtitle">Günüme neşe katan, enerjisiyle her anı güzelleştiren o özel insana...</p>
+        <div class="counter-title" id="counterTitle">Enerjinin Hayatıma Etki Süresi</div>
+        <div class="counter-container">
+            <div class="counter-box"><div class="counter-value" id="days">14</div><div class="counter-label">Gün</div></div>
+            <div class="counter-box"><div class="counter-value" id="hours">00</div><div class="counter-label">Saat</div></div>
+            <div class="counter-box"><div class="counter-value" id="minutes">00</div><div class="counter-label">Dakika</div></div>
+            <div class="counter-box"><div class="counter-value" id="seconds">00</div><div class="counter-label">Saniye</div></div>
         </div>
-
         <div class="message-box" id="messageBox">
-            Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli ve renkli bir hal alıyor. Seninle konuşmak, o tatlı enerjini hissetmek benim için çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)
+            Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli bir hal alıyor. Seninle konuşmak, o tatlı neşeni hissetmek benim için gerçekten çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)
         </div>
     </div>
     <footer>Coded with 🤍 for Esma</footer>
     <script>
-        let isEsmaPresent = true; let bpmInterval;
-        function updateBPM() {
+        // Bugünün tarihinden tam 14 gün öncesini otomatik hesaplayan dinamik kök tarih
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - 14);
+        
+        let isEsmaPresent = true; let intervalId;
+        
+        function updateCounter() {
             if (!isEsmaPresent) return;
-            // Esma varken kalp atışı 80-98 arası heyecanlı atsın
-            const randomBPM = Math.floor(Math.random() * (98 - 80 + 1)) + 80;
-            document.getElementById('bpmValue').innerText = randomBPM;
+            const now = new Date(); const diff = now - startDate; if (diff < 0) return;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').innerText = String(d).padStart(2, '0');
+            document.getElementById('hours').innerText = String(h).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(s).padStart(2, '0');
         }
+        
         function toggleMode() {
             isEsmaPresent = !isEsmaPresent;
             const body = document.body; const container = document.getElementById('mainContainer');
             const toggleText = document.getElementById('toggleText'); const mainTitle = document.getElementById('mainTitle');
             const mainSubtitle = document.getElementById('mainSubtitle'); const counterTitle = document.getElementById('counterTitle');
             const messageBox = document.getElementById('messageBox');
-            const bpmValue = document.getElementById('bpmValue'); const bpmStatus = document.getElementById('bpmStatus');
-            
             if (isEsmaPresent) {
                 body.classList.remove('esma-yok'); container.classList.add('pulse-active');
                 toggleText.innerText = "Mod: Esma Var 🌸"; mainTitle.innerText = "İyi Ki Doğdun Esma!";
-                mainSubtitle.innerText = "Günüme neşe katan, enerjisiyle her anı güzelleştiren birine küçük bir sürpriz...";
-                counterTitle.innerText = "Anlık Sistem Durumu";
-                bpmStatus.innerText = "Ritim: Heyecanlı 💓";
-                messageBox.innerText = "Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli ve renkli bir hal alıyor. Seninle konuşmak, o tatlı enerjini hissetmek benim için çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)";
-                bpmInterval = setInterval(updateBPM, 1500);
+                mainSubtitle.innerText = "Günüme neşe katan, enerjisiyle her anı güzelleştiren o özel insana...";
+                counterTitle.innerText = "Enerjinin Hayatıma Etki Süresi";
+                messageBox.innerText = "Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli ve renkli bir hal alıyor. Seninle konuşmak, o tatlı neşeni hissetmek benim için gerçekten çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)";
+                updateCounter(); intervalId = setInterval(updateCounter, 1000);
             } else {
                 body.classList.add('esma-yok'); container.classList.remove('pulse-active');
-                toggleText.innerText = "Mod: Esma Yok 🖤"; mainTitle.innerText = "Sistem Çöktü...";
-                mainSubtitle.innerText = "Ortamda Esma enerjisi algılanamadı."; counterTitle.innerText = "Kritik Hata Raporu";
-                bpmValue.innerText = "00"; bpmStatus.innerText = "Ritim: Hat Durdu 💔";
-                messageBox.innerText = "Sensiz ortamın tüm neşesi kaçıyor, her şey tekdüze bir griye bürünüyor. Enerjin olmayınca sistem bile çalışmayı reddediyor, donup kalıyor...";
-                clearInterval(bpmInterval);
+                toggleText.innerText = "Mod: Esma Yok 🖤"; mainTitle.innerText = "Zaman Durdu...";
+                mainSubtitle.innerText = "Ortamda Esma enerjisi algılanamadı."; counterTitle.innerText = "Anlamsız geçen, donup kalan zaman";
+                messageBox.innerText = "Sensiz bir gün, içi boşaltılmış bir gürültüden ibaret. Ne bir parıltı var ne de yaşama sevinci. Her şey gri, her şey durmuş vaziyette...";
+                clearInterval(intervalId);
+                document.getElementById('days').innerText = "00"; document.getElementById('hours').innerText = "00";
+                document.getElementById('minutes').innerText = "00"; document.getElementById('seconds').innerText = "00";
             }
         }
-        bpmInterval = setInterval(updateBPM, 1500);
+        updateCounter(); intervalId = setInterval(updateCounter, 1000);
     </script>
 </body>
 </html>
-EOF
