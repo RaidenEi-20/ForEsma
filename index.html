@@ -70,16 +70,15 @@
     <script>
         let isEsmaPresent = true; let intervalId;
         
-        // İlk açılışta gün 14 sabit kalırken, saat/dakika/saniye tamamen random atanıyor
+        // İlk açılışta gün 14 sabit, diğerleri kesinlikle 0 gelmeyecek şekilde random atanıyor
         let currentDays = 14;
-        let currentHours = Math.floor(Math.random() * 24);
-        let currentMinutes = Math.floor(Math.random() * 60);
-        let currentSeconds = Math.floor(Math.random() * 60);
+        let currentHours = Math.floor(Math.random() * 23) + 1; // 1-23 arası garanti
+        let currentMinutes = Math.floor(Math.random() * 58) + 1; // 1-58 arası garanti
+        let currentSeconds = Math.floor(Math.random() * 58) + 1; // 1-58 arası garanti
         
         function updateCounter() {
             if (!isEsmaPresent) return;
             
-            // Her saniye süreyi ileriye doğru akıtıyoruz
             currentSeconds++;
             if (currentSeconds >= 60) {
                 currentSeconds = 0;
@@ -89,7 +88,7 @@
                     currentHours++;
                     if (currentHours >= 24) {
                         currentHours = 0;
-                        currentDays++; // Gün de zamanla artabilir ya da 14 kalabilir, bu mantık akışı bozmaz
+                        currentDays++;
                     }
                 }
             }
@@ -113,10 +112,9 @@
                 counterTitle.innerText = "Enerjinin Hayatıma Etki Süresi";
                 messageBox.innerText = "Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli ve renkli bir hal alıyor. Seninle konuşmak, o tatlı neşeni hissetmek benim için gerçekten çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)";
                 
-                // Yeniden açıldığında yeni bir random zaman simülasyonu başlatır
-                currentHours = Math.floor(Math.random() * 24);
-                currentMinutes = Math.floor(Math.random() * 60);
-                currentSeconds = Math.floor(Math.random() * 60);
+                currentHours = Math.floor(Math.random() * 23) + 1;
+                currentMinutes = Math.floor(Math.random() * 58) + 1;
+                currentSeconds = Math.floor(Math.random() * 58) + 1;
                 
                 updateCounter(); intervalId = setInterval(updateCounter, 1000);
             } else {
@@ -129,7 +127,14 @@
                 document.getElementById('minutes').innerText = "00"; document.getElementById('seconds').innerText = "00";
             }
         }
-        updateCounter(); intervalId = setInterval(updateCounter, 1000);
+        
+        // DOM yüklenir yüklenmez ilk değerleri ekrana basmaya zorla
+        document.getElementById('days').innerText = String(currentDays).padStart(2, '0');
+        document.getElementById('hours').innerText = String(currentHours).padStart(2, '0');
+        document.getElementById('minutes').innerText = String(currentMinutes).padStart(2, '0');
+        document.getElementById('seconds').innerText = String(currentSeconds).padStart(2, '0');
+        
+        intervalId = setInterval(updateCounter, 1000);
     </script>
 </body>
 </html>
