@@ -63,29 +63,41 @@
             <div class="counter-box"><div class="counter-value" id="seconds">00</div><div class="counter-label">Saniye</div></div>
         </div>
         <div class="message-box" id="messageBox">
-            Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli bir hal alıyor. Seninle konuşmak, o tatlı neşeni hissetmek benim için gerçekten çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)
+            Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli ve renkli bir hal alıyor. Seninle konuşmak, o tatlı neşeni hissetmek benim için gerçekten çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)
         </div>
     </div>
     <footer>Coded with 🤍 for Esma</footer>
     <script>
-        // Bugünün tarihinden tam 14 gün öncesini otomatik hesaplayan dinamik kök tarih
-        const startDate = new Date();
-        startDate.setDate(startDate.getDate() - 14);
-        
         let isEsmaPresent = true; let intervalId;
+        
+        // İlk açılışta gün 14 sabit kalırken, saat/dakika/saniye tamamen random atanıyor
+        let currentDays = 14;
+        let currentHours = Math.floor(Math.random() * 24);
+        let currentMinutes = Math.floor(Math.random() * 60);
+        let currentSeconds = Math.floor(Math.random() * 60);
         
         function updateCounter() {
             if (!isEsmaPresent) return;
-            const now = new Date(); const diff = now - startDate; if (diff < 0) return;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
             
-            document.getElementById('days').innerText = String(d).padStart(2, '0');
-            document.getElementById('hours').innerText = String(h).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(m).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(s).padStart(2, '0');
+            // Her saniye süreyi ileriye doğru akıtıyoruz
+            currentSeconds++;
+            if (currentSeconds >= 60) {
+                currentSeconds = 0;
+                currentMinutes++;
+                if (currentMinutes >= 60) {
+                    currentMinutes = 0;
+                    currentHours++;
+                    if (currentHours >= 24) {
+                        currentHours = 0;
+                        currentDays++; // Gün de zamanla artabilir ya da 14 kalabilir, bu mantık akışı bozmaz
+                    }
+                }
+            }
+            
+            document.getElementById('days').innerText = String(currentDays).padStart(2, '0');
+            document.getElementById('hours').innerText = String(currentHours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(currentMinutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(currentSeconds).padStart(2, '0');
         }
         
         function toggleMode() {
@@ -100,6 +112,12 @@
                 mainSubtitle.innerText = "Günüme neşe katan, enerjisiyle her anı güzelleştiren o özel insana...";
                 counterTitle.innerText = "Enerjinin Hayatıma Etki Süresi";
                 messageBox.innerText = "Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli ve renkli bir hal alıyor. Seninle konuşmak, o tatlı neşeni hissetmek benim için gerçekten çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)";
+                
+                // Yeniden açıldığında yeni bir random zaman simülasyonu başlatır
+                currentHours = Math.floor(Math.random() * 24);
+                currentMinutes = Math.floor(Math.random() * 60);
+                currentSeconds = Math.floor(Math.random() * 60);
+                
                 updateCounter(); intervalId = setInterval(updateCounter, 1000);
             } else {
                 body.classList.add('esma-yok'); container.classList.remove('pulse-active');
