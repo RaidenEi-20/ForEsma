@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>İyi Ki Varsın Esma</title>
     <style>
         :root {
@@ -58,9 +61,9 @@
         <div class="counter-title" id="counterTitle">Enerjinin Hayatıma Etki Süresi</div>
         <div class="counter-container">
             <div class="counter-box"><div class="counter-value" id="days">14</div><div class="counter-label">Gün</div></div>
-            <div class="counter-box"><div class="counter-value" id="hours">00</div><div class="counter-label">Saat</div></div>
-            <div class="counter-box"><div class="counter-value" id="minutes">00</div><div class="counter-label">Dakika</div></div>
-            <div class="counter-box"><div class="counter-value" id="seconds">00</div><div class="counter-label">Saniye</div></div>
+            <div class="counter-box"><div class="counter-value" id="hours">12</div><div class="counter-label">Saat</div></div>
+            <div class="counter-box"><div class="counter-value" id="minutes">34</div><div class="counter-label">Dakika</div></div>
+            <div class="counter-box"><div class="counter-value" id="seconds">56</div><div class="counter-label">Saniye</div></div>
         </div>
         <div class="message-box" id="messageBox">
             Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli ve renkli bir hal alıyor. Seninle konuşmak, o tatlı neşeni hissetmek benim için gerçekten çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)
@@ -70,11 +73,11 @@
     <script>
         let isEsmaPresent = true; let intervalId;
         
-        // İlk açılışta gün 14 sabit, diğerleri kesinlikle 0 gelmeyecek şekilde random atanıyor
+        // İlk değerleri 0 gelmesin diye direkt güvenli sayılarla başlatıyoruz
         let currentDays = 14;
-        let currentHours = Math.floor(Math.random() * 23) + 1; // 1-23 arası garanti
-        let currentMinutes = Math.floor(Math.random() * 58) + 1; // 1-58 arası garanti
-        let currentSeconds = Math.floor(Math.random() * 58) + 1; // 1-58 arası garanti
+        let currentHours = Math.floor(Math.random() * 22) + 1;
+        let currentMinutes = Math.floor(Math.random() * 55) + 1;
+        let currentSeconds = Math.floor(Math.random() * 55) + 1;
         
         function updateCounter() {
             if (!isEsmaPresent) return;
@@ -112,9 +115,9 @@
                 counterTitle.innerText = "Enerjinin Hayatıma Etki Süresi";
                 messageBox.innerText = "Esma... Çevremde olduğun, güldüğün ve enerjini paylaştığın her an hayat çok daha keyifli ve renkli bir hal alıyor. Seninle konuşmak, o tatlı neşeni hissetmek benim için gerçekten çok değerli. İyi ki doğdun, iyi ki varsın. Yeni yaşın sana tüm güzellikleri getirsin! (Bu arada yukarıdaki butona basıp modu değiştirmeyi denesene, sistem sensizliğe pek gelemiyor sanırım...)";
                 
-                currentHours = Math.floor(Math.random() * 23) + 1;
-                currentMinutes = Math.floor(Math.random() * 58) + 1;
-                currentSeconds = Math.floor(Math.random() * 58) + 1;
+                currentHours = Math.floor(Math.random() * 22) + 1;
+                currentMinutes = Math.floor(Math.random() * 55) + 1;
+                currentSeconds = Math.floor(Math.random() * 55) + 1;
                 
                 updateCounter(); intervalId = setInterval(updateCounter, 1000);
             } else {
@@ -128,13 +131,14 @@
             }
         }
         
-        // DOM yüklenir yüklenmez ilk değerleri ekrana basmaya zorla
-        document.getElementById('days').innerText = String(currentDays).padStart(2, '0');
-        document.getElementById('hours').innerText = String(currentHours).padStart(2, '0');
-        document.getElementById('minutes').innerText = String(currentMinutes).padStart(2, '0');
-        document.getElementById('seconds').innerText = String(currentSeconds).padStart(2, '0');
-        
-        intervalId = setInterval(updateCounter, 1000);
+        // Sayfa yüklenir yüklenmez DOM'u ezmek için garanti tetikleyici
+        window.onload = function() {
+            document.getElementById('days').innerText = String(currentDays).padStart(2, '0');
+            document.getElementById('hours').innerText = String(currentHours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(currentMinutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(currentSeconds).padStart(2, '0');
+            intervalId = setInterval(updateCounter, 1000);
+        };
     </script>
 </body>
 </html>
