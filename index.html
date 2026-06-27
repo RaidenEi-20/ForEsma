@@ -3,109 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İyi Ki Varsın Esma</title>
+    <title>Esma İçin Siber-Romantik</title>
     <style>
-        :root {
-            --bg-dark: #0a0a0c;
-            --card-bg: #121216;
-            --accent-glow: #ff2a74;
-            --accent-soft: #ff75a0;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --transition-speed: 0.5s;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffeef2;
+            color: #4a4a4a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            transition: all 0.5s ease;
         }
-        .esma-yok {
-            --bg-dark: #121212;
-            --card-bg: #1a1a1a;
-            --accent-glow: #555555;
-            --accent-soft: #888888;
-            --text-main: #777777;
-            --text-muted: #444444;
-            filter: grayscale(1) contrast(0.9);
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-x: hidden; transition: background-color var(--transition-speed), filter var(--transition-speed); padding: 20px; }
-        .ambient-glow { position: fixed; top: -50%; left: -50%; right: -50%; bottom: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,42,116,0.05) 0%, rgba(0,0,0,0) 70%); z-index: -1; pointer-events: none; transition: opacity var(--transition-speed); }
-        .esma-yok .ambient-glow { opacity: 0; }
-        .container { max-width: 600px; width: 100%; background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 24px; padding: 40px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 50px rgba(255, 42, 116, 0.02); transition: all var(--transition-speed); position: relative; }
-        .esma-yok .container { box-shadow: none; border-color: #222; }
-        .mode-toggle { display: inline-flex; align-items: center; background: rgba(255, 255, 255, 0.05); padding: 6px 12px; border-radius: 30px; margin-bottom: 35px; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.08); user-select: none; transition: all 0.3s ease; }
-        .mode-toggle:hover { transform: translateY(-2px); }
-        .toggle-text { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; margin-right: 8px; }
-        h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; background: linear-gradient(45deg, var(--text-main), var(--accent-soft)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; transition: all var(--transition-speed); }
-        .esma-yok h1 { background: none; -webkit-text-fill-color: var(--text-main); }
-        .subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 40px; line-height: 1.5; }
-        .counter-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent-soft); margin-bottom: 15px; font-weight: 700; transition: color var(--transition-speed); }
-        .counter-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; }
-        .counter-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 16px; min-width: 80px; transition: all var(--transition-speed); }
-        .counter-value { font-size: 1.8rem; font-weight: 700; color: var(--text-main); font-family: monospace; }
-        .counter-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; }
-        .message-box { background: rgba(255, 42, 116, 0.02); border-left: 3px solid var(--accent-glow); padding: 25px; border-radius: 0 16px 16px 0; text-align: left; line-height: 1.7; font-size: 1.05rem; color: var(--text-main); transition: all var(--transition-speed); opacity: 1; transform: translateY(0); }
-        .esma-yok .message-box { border-left-color: #444; opacity: 0.4; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); box-shadow: 0 0 20px rgba(255, 42, 116, 0.2); } 100% { transform: scale(1); } }
-        .pulse-active { animation: pulse 3s infinite ease-in-out; }
-        footer { margin-top: 30px; font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; }
+        h1 {
+            color: #ff6584;
+        }
+        /* Yeni eklenen yanıp sönen yönlendirme yazısı */
+        .ipucu-yazi {
+            font-size: 1.1rem;
+            color: #ff477e;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: yanipSon 1.5s infinite;
+        }
+        button {
+            background-color: #ff6584;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(255, 101, 132, 0.2);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        button:hover {
+            background-color: #ff477e;
+            transform: scale(1.05);
+        }
+        /* Esma Yok Modu Stilleri */
+        body.esma-yok {
+            background-color: #1a1a1a;
+            color: #888;
+        }
+        body.esma-yok .container {
+            background: #2a2a2a;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        body.esma-yok h1 {
+            color: #555;
+        }
+        body.esma-yok button {
+            background-color: #444;
+            color: #888;
+            box-shadow: none;
+        }
+        body.esma-yok .ipucu-yazi {
+            color: #555;
+            animation: none;
+        }
+
+        @keyframes yanipSon {
+            0% { opacity: 0.3; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1.02); }
+            100% { opacity: 0.3; transform: scale(0.98); }
+        }
     </style>
 </head>
 <body>
-    <div class="ambient-glow"></div>
-    <div class="container pulse-active" id="mainContainer">
-        <div class="mode-toggle" onclick="toggleMode()">
-            <span class="toggle-text" id="toggleText">Mod: Esma Var 🌸</span>
-        </div>
-        <h1 id="mainTitle">İyi Ki Doğdun, İyi Ki Benimlesin</h1>
-        <p class="subtitle" id="mainSubtitle">Hayatımdaki tek kız, kalbimin en güvenli limanı olan Esma'ya...</p>
-        <div class="counter-title" id="counterTitle">Seninle mutlu geçen her bir saniye</div>
-        <div class="counter-container">
-            <div class="counter-box"><div class="counter-value" id="days">00</div><div class="counter-label">Gün</div></div>
-            <div class="counter-box"><div class="counter-value" id="hours">00</div><div class="counter-label">Saat</div></div>
-            <div class="counter-box"><div class="counter-value" id="minutes">00</div><div class="counter-label">Dakika</div></div>
-            <div class="counter-box"><div class="counter-value" id="seconds">00</div><div class="counter-label">Saniye</div></div>
-        </div>
-        <div class="message-box" id="messageBox">
-            Esma... Sen yokken zaman sadece geçiyor, akmıyor. Günler tüm renklerini kaybedip siyah-beyaz bir gürültüye dönüşüyor. Ama hayatımda sen varsın ya; seninle konuştuğum, sesini duyduğum her saniye evren yeniden renkleniyor. Sen benim bu dünyadaki tek gerçeğim, en güzel şiirimsin. Doğum günün kutlu olsun sevgilim, seninle geçen her ana şükürler olsun.
-        </div>
+
+    <div class="container">
+        <h1 id="baslik">Esma'nın Dünyası 🌸</h1>
+        <p id="aciklama">Her şey seninle güzel ve renkli...</p>
+        
+        <div class="ipucu-yazi">✨ Buraya tıklar mısın canım? ✨</div>
+        
+        <button id="modButon" onclick="moduDegistir()">Modu Değiştir</button>
     </div>
-    <footer>Coded with 🤍 for Esma</footer>
+
     <script>
-        const startDate = new Date(2025, 5, 1, 0, 0, 0); 
-        let isEsmaPresent = true; let intervalId;
-        function updateCounter() {
-            if (!isEsmaPresent) return;
-            const now = new Date(); const diff = now - startDate; if (diff < 0) return;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById('days').innerText = String(d).padStart(2, '0');
-            document.getElementById('hours').innerText = String(h).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(m).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(s).padStart(2, '0');
-        }
-        function toggleMode() {
-            isEsmaPresent = !isEsmaPresent;
-            const body = document.body; const container = document.getElementById('mainContainer');
-            const toggleText = document.getElementById('toggleText'); const mainTitle = document.getElementById('mainTitle');
-            const mainSubtitle = document.getElementById('mainSubtitle'); const counterTitle = document.getElementById('counterTitle');
-            const messageBox = document.getElementById('messageBox');
-            if (isEsmaPresent) {
-                body.classList.remove('esma-yok'); container.classList.add('pulse-active');
-                toggleText.innerText = "Mod: Esma Var 🌸"; mainTitle.innerText = "İyi Ki Doğdun, İyi Ki Benimlesin";
-                mainSubtitle.innerText = "Hayatımdaki tek kız, kalbimin en güvenli limanı olan Esma'ya...";
-                counterTitle.innerText = "Seninle mutlu geçen her bir saniye";
-                messageBox.innerText = "Esma... Sen yokken zaman sadece geçiyor, akmıyor. Günler tüm renklerini kaybedip siyah-beyaz bir gürültüye dönüşüyor. Ama hayatımda sen varsın ya; seninle konuştuğum, sesini duyduğum her saniye evren yeniden renkleniyor. Sen benim bu dünyadaki tek gerçeğim, en güzel şiirimsin. Doğum günün kutlu olsun sevgilim, seninle geçen her ana şükürler olsun.";
-                updateCounter(); intervalId = setInterval(updateCounter, 1000);
+        function moduDegistir() {
+            const body = document.body;
+            const baslik = document.getElementById('baslik');
+            const aciklama = document.getElementById('aciklama');
+            const buton = document.getElementById('modButon');
+            const ipucu = document.querySelector('.ipucu-yazi');
+
+            body.classList.toggle('esma-yok');
+
+            if (body.classList.contains('esma-yok')) {
+                baslik.innerText = "Zaman Dondu... 🖤";
+                aciklama.innerText = "Sen yoksun diye her şey renksiz, dünya kapkaranlık.";
+                buton.innerText = "Dünyayı Geri Renklendir";
+                ipucu.innerText = "✨ Dünyamı düzeltmek için tekrar tıkla canım ✨";
             } else {
-                body.classList.add('esma-yok'); container.classList.remove('pulse-active');
-                toggleText.innerText = "Mod: Esma Yok 🖤"; mainTitle.innerText = "Zaman Durdu...";
-                mainSubtitle.innerText = "Sen yokken günlerin hiçbir anlamı yok."; counterTitle.innerText = "Anlamsız geçen, donup kalan zaman";
-                messageBox.innerText = "Sensiz bir gün, içi boşaltılmış bir gürültüden ibaret. Ne bir parıltı var ne de yaşama sevinci. Her şey gri, her şey durmuş vaziyette...";
-                clearInterval(intervalId);
-                document.getElementById('days').innerText = "00"; document.getElementById('hours').innerText = "00";
-                document.getElementById('minutes').innerText = "00"; document.getElementById('seconds').innerText = "00";
+                baslik.innerText = "Esma'nın Dünyası 🌸";
+                aciklama.innerText = "Her şey seninle güzel ve renkli...";
+                buton.innerText = "Modu Değiştir";
+                ipucu.innerText = "✨ Buraya tıklar mısın canım? ✨";
             }
         }
-        updateCounter(); intervalId = setInterval(updateCounter, 1000);
     </script>
+
 </body>
 </html>
