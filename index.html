@@ -2,19 +2,20 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta property="og:title" content="Senin İçin Küçük Bir Not... ✨">
-    <meta property="og:description" content="Gününe tatlı bir tebessüm katmak istedim, tıklayıp bakabilirsin. 🌸">
-    <meta property="og:image" content="https://raidenei-20.github.io/ForEsma/resim.png">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Senin İçin Küçük Bir Not... ✨">
-    <meta name="twitter:description" content="Gününe tatlı bir tebessüm katmak istedim, tıklayıp bakabilirsin. 🌸">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>Esma'ya Özel ✨</title>
+    
+    <meta property="og:title" content="Senin İçin Küçük Bir Not... ✨">
+    <meta property="og:description" content="Gününe tatlı bir tebessüm katmak istedim, tıklayıp bakabilirsin. 🌸">
+    <meta property="og:image" content="https://raidenei-20.github.io/ForEsma/resim.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Senin İçin Küçük Bir Not... ✨">
+    <meta name="twitter:description" content="Gününe tatlı bir tebessüm katmak istedim, tıklayıp bakabilirsin. 🌸">
+
     <style>
         :root {
             --bg-dark: #0a0a0c;
@@ -138,7 +139,7 @@
             font-weight: 700;
             border-radius: 30px;
             cursor: pointer;
-            transition: all 0.1s ease;
+            transition: transform 0.1s ease;
             z-index: 999;
         }
         
@@ -166,31 +167,25 @@
     
     <div class="container pulse-active" id="mainContainer">
         
-        <!-- EKRAN 1: GİRİŞ VE SENİN YAZIN -->
         <div id="introScreen">
-            <!-- Başlığı ve alt başlığı nano'da istediğin gibi değiştirebilirsin brom -->
             <h1>Hayatıma Kattığın En Güzel Renk... ✨</h1>
             <p class="subtitle">Seninle geçen her anı, her konuşmayı düşündüğümde...</p>
             
-            <!-- Esma'ya olan hislerini tam olarak buraya yazıyorsun babuş -->
             <div class="message-box">
                 Esma... Seninle vakit geçirmek, o güzel enerjini hissetmek ve dünyama kattığın o tatlı neşeyi paylaşmak benim için çok ama çok değerli. Bana hissettirdiğin bu güzel duyguların ardından, içimden gelen o asıl soruyu artık sormak istiyorum...
             </div>
             
-            <!-- Yazının altındaki o soru butonu -->
             <button class="action-btn" onclick="showProposal()">Sana Bir Sorum Var... ✨</button>
         </div>
 
-        <!-- EKRAN 2: SEVGİLİLİK TEKLİFİ -->
         <div id="proposalScreen" class="hidden">
             <h1>Benimle bu güzel hikayeyi birlikte yazmaya, sevgilim olmaya var mısın? 🤍</h1>
             <div class="btn-group">
-                <button class="btn-evet" onclick="acceptProposal()">EVET! 🌸</button>
+                <button class="btn-evet" id="yesButton" onclick="acceptProposal()">EVET! 🌸</button>
                 <button class="btn-hayir" id="noButton">Hayır 💔</button>
             </div>
         </div>
 
-        <!-- EKRAN 3: KUTLAMA VE KONFETİ -->
         <div id="celebrationScreen" class="hidden">
             <h1>Dünyanın En Mutlu İnsanı Yaptın Beni! 🥹🤍</h1>
             <div class="message-box" style="text-align: center; border-left: none; border-right: 3px solid var(--accent-glow); border-radius: 16px 0 0 16px;">
@@ -213,15 +208,49 @@
             initConfetti();
         }
 
-        // Hayır butonunun kaçma mekanizması
+        // Akıllı Kaçma Mekanizması (Ekranda kalır ve EVET butonuna yaklaşmaz)
         const noButton = document.getElementById('noButton');
+        const yesButton = document.getElementById('yesButton');
+
         function moveButton() {
-            const padding = 30;
-            const maxX = window.innerWidth - noButton.offsetWidth - padding;
-            const maxY = window.innerHeight - noButton.offsetHeight - padding;
+            // Evet butonunun ekrandaki güncel yerini alıyoruz
+            const yesRect = yesButton.getBoundingClientRect();
             
-            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+            // Ekran sınırları ve buton boyutları
+            const btnWidth = noButton.offsetWidth;
+            const btnHeight = noButton.offsetHeight;
+            
+            // Güvenli bölge (Kenarlardan 50px boşluk)
+            const padding = 50;
+            const minX = padding;
+            const maxX = window.innerWidth - btnWidth - padding;
+            const minY = padding;
+            const maxY = window.innerHeight - btnHeight - padding;
+            
+            let randomX, randomY;
+            let isValidPosition = false;
+            let attempts = 0;
+
+            // Evet butonuna çok yakın olmayan bir yer bulana kadar döngü çalışır (En fazla 50 deneme)
+            while (!isValidPosition && attempts < 50) {
+                randomX = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+                randomY = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+                attempts++;
+
+                // Seçilen noktanın Evet butonunun merkezine olan uzaklığı
+                const yesCenterX = yesRect.left + yesRect.width / 2;
+                const yesCenterY = yesRect.top + yesRect.height / 2;
+                const noCenterX = randomX + btnWidth / 2;
+                const noCenterY = randomY + btnHeight / 2;
+
+                const distanceX = Math.abs(yesCenterX - noCenterX);
+                const distanceY = Math.abs(yesCenterY - noCenterY);
+
+                // Evet butonuna yatayda veya dikeyde en az 120px uzaklıktaysa konumu onayla
+                if (distanceX > 120 || distanceY > 120) {
+                    isValidPosition = true;
+                }
+            }
             
             noButton.style.position = 'fixed';
             noButton.style.left = randomX + 'px';
